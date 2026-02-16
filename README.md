@@ -132,6 +132,8 @@ MIT — contribuciones bienvenidas 🚀
 
 ---
 
+## 💻 Creado Por
+
 🧑‍💻 Isaac Haro
 
 Ingeniero en Sistemas · Full Stack · Automatización · Data
