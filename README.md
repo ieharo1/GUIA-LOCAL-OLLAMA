@@ -128,4 +128,15 @@ Si el proyecto te aporta valor, considera darle ⭐
 
 ## 📄 Licencia
 
-MIT License
+MIT — contribuciones bienvenidas 🚀
+
+---
+
+🧑‍💻 Isaac Haro
+
+Ingeniero en Sistemas · Full Stack · Automatización · Data
+
+Isaac Esteban Haro Torres
+- 📧 zackharo1@gmail.com
+- 📱 098805517
+- 💻 [GitHub](https://github.com/ieharo1)
