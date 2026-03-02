@@ -1,146 +1,128 @@
-# Ollama Local LLM Guide 🚀
+﻿# Guía Profesional de Ollama Local
+[![Docker Ready](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker&logoColor=white)](https://www.docker.com/)
+[![Ollama](https://img.shields.io/badge/Ollama-Local%20LLM-black)](https://ollama.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![Idioma: Español](https://img.shields.io/badge/Idioma-Espa%C3%B1ol-blue)](#)
+[![Status: Production Ready](https://img.shields.io/badge/Status-Production%20Ready-brightgreen)](#)
 
-curl http://localhost:11434/api/generate
- -d '{
-"model": "llama3",
-"prompt": "Explica qué es una arquitectura escalable"
-}'
+Guía técnica para ejecutar LLMs 100% locales con Ollama usando Docker, orientada a proyectos serios de portafolio y automatización.
 
+## Objetivos
 
----
+- Correr modelos open-source sin depender de APIs externas.
+- Mantener privacidad de datos en infraestructura local.
+- Estandarizar despliegue con Docker Compose.
+- Facilitar integración con scripts, backends y n8n.
 
-## 🐍 Integración con Python
+## Casos de uso
 
+- Asistente interno de documentación.
+- Generación de respuestas técnicas offline.
+- Análisis de logs y clasificación de tickets.
+- Prototipos RAG y agentes locales.
 
+## Stack
 
+- Ollama
+- Docker / Docker Compose
+- REST API local en `http://localhost:11434`
+
+## Estructura
+
+```text
+.
+├── docker-compose.yml
+├── .env.example
+└── README.md
+```
+
+## Requisitos
+
+- Docker Desktop o Docker Engine + Compose
+- Recomendado: 16 GB RAM mínimo
+- Opcional: GPU NVIDIA + NVIDIA Container Toolkit
+
+## 1) Configurar puerto
+
+```bash
+cp .env.example .env
+```
+
+Ajusta si hace falta:
+
+```env
+OLLAMA_PORT=11434
+```
+
+## 2) Levantar Ollama (CPU)
+
+```bash
+docker compose up -d ollama
+```
+
+Ver logs:
+
+```bash
+docker compose logs -f ollama
+```
+
+## 3) Levantar Ollama (GPU opcional)
+
+```bash
+docker compose --profile gpu up -d ollama-gpu
+```
+
+Usa este modo solo si tienes runtime NVIDIA configurado.
+
+## 4) Descargar modelos dentro del contenedor
+
+```bash
+docker compose exec ollama ollama pull llama3
+```
+
+Si usas GPU service:
+
+```bash
+docker compose exec ollama-gpu ollama pull llama3
+```
+
+## 5) Probar generación por API
+
+```bash
+curl http://localhost:11434/api/generate \
+  -d '{"model":"llama3","prompt":"Explica arquitectura hexagonal","stream":false}'
+```
+
+## 6) Integración con Python
+
+```python
 import requests
 
-url = "http://localhost:11434/api/generate
-"
-
+url = "http://localhost:11434/api/generate"
 payload = {
-"model": "llama3",
-"prompt": "Genera un resumen técnico sobre microservicios",
-"stream": False
+    "model": "llama3",
+    "prompt": "Resume ventajas de microservicios",
+    "stream": False,
 }
 
-response = requests.post(url, json=payload)
-
+response = requests.post(url, json=payload, timeout=120)
+response.raise_for_status()
 print(response.json()["response"])
+```
 
+## Seguridad
 
----
+- No expongas `11434` en internet sin proxy y autenticación.
+- Aísla la red en entornos corporativos.
+- Añade rate limiting si atiendes múltiples clientes.
 
-## 🔐 Seguridad
+## Solución de problemas
 
-- Ejecutar detrás de firewall
-- No exponer el puerto 11434 públicamente
-- Usar reverse proxy con autenticación si es necesario
-- Implementar rate limiting en producción
+- El contenedor no responde: revisa `docker compose logs`.
+- Modelo no encontrado: ejecuta `ollama pull <modelo>`.
+- Rendimiento bajo: usa modelos cuantizados (`q4`, `q8`) o activa GPU.
 
----
+## Licencia
 
-## 📊 Modelos Recomendados
+MIT
 
-| Modelo     | Uso Ideal |
-|------------|-----------|
-| llama3     | General purpose |
-| mistral    | Rápido y liviano |
-| codellama  | Generación de código |
-| phi        | Entornos con pocos recursos |
-| gemma      | Alternativa ligera |
-
----
-
-## 🧠 Casos de Uso Empresarial
-
-- Asistente interno de documentación
-- Generación automática de reportes
-- Chat interno sobre bases de datos
-- Clasificación de tickets
-- Análisis de logs
-
----
-
-## 🚀 Integración con n8n
-
-1. Crear HTTP Request Node
-2. Método: POST
-3. URL: http://localhost:11434/api/generate
-4. Body JSON
-5. Procesar respuesta
-
-Permite automatizaciones completamente locales.
-
----
-
-## 🏎 Optimización
-
-- Usar modelos cuantizados (q4, q8)
-- Ajustar temperatura y top_p
-- Desactivar stream si no se necesita
-- Limitar tokens máximos
-
----
-
-## 📈 Escalabilidad
-
-Para producción:
-
-- Dockerizar Ollama
-- Usar balanceador interno
-- Implementar colas (Redis)
-- Separar procesamiento por microservicio
-
----
-
-## 🐳 Docker
-
-
-
-docker run -d -p 11434:11434 ollama/ollama
-
-
----
-
-## 🛡 Ventajas frente a APIs externas
-
-- 0 costo por token
-- Datos no salen de la empresa
-- Control total del modelo
-- Sin límites de uso
-
----
-
-## 📚 Recursos
-
-- https://ollama.com
-- https://github.com/ollama/ollama
-
----
-
-## 🤝 Contribuciones
-
-Pull requests son bienvenidos.
-Si el proyecto te aporta valor, considera darle ⭐
-
----
-
-## 📄 Licencia
-
-MIT — contribuciones bienvenidas 🚀
-
----
-
-## 👨‍💻 Desarrollado por Isaac Esteban Haro Torres
-
-**Ingeniero en Sistemas · Full Stack · Automatización · Data**
-
-- 📧 Email: zackharo1@gmail.com
-- 📱 WhatsApp: 098805517
-- 💻 GitHub: https://github.com/ieharo1
-- 🌐 Portafolio: https://ieharo1.github.io/portafolio-isaac.haro/
-
----
-
-© 2026 Isaac Esteban Haro Torres - Todos los derechos reservados.
