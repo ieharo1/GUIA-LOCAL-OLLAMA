@@ -122,7 +122,18 @@ print(response.json()["response"])
 - Modelo no encontrado: ejecuta `ollama pull <modelo>`.
 - Rendimiento bajo: usa modelos cuantizados (`q4`, `q8`) o activa GPU.
 
-## Licencia
+---
 
-MIT
+## 👨‍💻 Desarrollado por Isaac Esteban Haro Torres
+
+**Ingeniero en Sistemas · Full Stack · Automatización · Data**
+
+- 📧 Email: zackharo1@gmail.com
+- 📱 WhatsApp: 098805517
+- 💻 GitHub: https://github.com/ieharo1
+- 🌐 Portafolio: https://ieharo1.github.io/portafolio-isaac.haro/
+
+---
+
+© 2026 Isaac Esteban Haro Torres - Todos los derechos reservados.
 
